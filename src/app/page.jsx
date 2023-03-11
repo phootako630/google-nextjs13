@@ -1,5 +1,8 @@
+import HomeHeader from '@/components/HomeHeader'
 export default function Home () {
     return (
-        <div>Goodbye World</div>
+       <>
+           <HomeHeader />
+       </>
     )
 }
