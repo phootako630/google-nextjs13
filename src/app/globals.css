@@ -9,4 +9,7 @@
         active:ring-gray-300
         hover:shadow-md w-36 h-10 transition-shadow;
     }
+    .link {
+        @apply cursor-pointer hover:underline;
+    }
 }
