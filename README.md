@@ -36,3 +36,36 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Features about this project
+### 1. Lazy-loading and infinity scroll
+image/page.jsx file:
+
+a. State variables:
+
+results: Stores the fetched image search results.
+start: Keeps track of the starting index for fetching more images.
+loading: Indicates whether the component is currently fetching images.
+hasMore: Indicates whether there are more images to fetch.
+b. useRef and useCallback:
+
+observer: A ref to store the IntersectionObserver instance.
+lastResultElementRef: A callback ref that triggers when the last image in the list is in the viewport. It disconnects the previous observer, if there is one, and creates a new observer to observe the new last image in the list.
+c. useEffect:
+
+Triggers when searchParams.searchTerm or start changes. Fetches images from the API and appends them to the results state variable. It also sets the hasMore state depending on whether more images are available.
+d. Passing lastResultElementRef as a prop to ImageSearchResults.
+
+ImageSearchResult.jsx file:
+
+a. Receiving the lastResultElementRef prop.
+
+b. Inside the results.items?.map() function, we conditionally render the last image element in the list with the lastResultElementRef ref attached to it.
+
+How it works:
+
+Initially, the component fetches the first set of images and renders them.
+When the user scrolls down and the last image comes into the viewport, the lastResultElementRef callback ref is triggered.
+The callback creates a new IntersectionObserver and starts observing the last image in the list. When the last image becomes visible, the observer increases the start state variable by 10, indicating that the next 10 images should be fetched.
+The useEffect hook triggers when the start variable changes, fetching the next set of images and appending them to the results state variable. This process repeats as long as there are more images to fetch and the user keeps scrolling down.
+By combining these different parts of the code, we achieve an infinite scrolling feature that fetches more images as the user scrolls down the page.
