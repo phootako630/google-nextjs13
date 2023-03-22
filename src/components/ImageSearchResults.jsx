@@ -20,9 +20,15 @@ const ImageSearchResults = ({ results }) => {
                                 href={result.image.contextLink}>
                                 <h2>{result.title}</h2>
                             </Link>
+                            <div className="flex items-center">
+                                <img src={`https://${result.displayLink}/favicon.ico`}
+                                     alt={`${result.displayLink} favicon`}
+                                     className="w-4 h-4 mr-2"
+                                     />
                             <Link href={result.image.contextLink}>
                                 <p className="group-hover:underline text-gray-600">{result.displayLink}</p>
                             </Link>
+                            </div>
                         </div>
                     </div>
                 ))}
