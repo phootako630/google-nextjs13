@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {TbGridDots} from "react-icons/Tb";
+import {TbGridDots} from "react-icons/tb";
 
 export default function HomeHeader () {
     return (
