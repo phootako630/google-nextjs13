@@ -13,7 +13,7 @@ export default function HomeHeader () {
                 <Link
                     className="hover:underline"
                     href="https://image.google.com">
-                    Gmail
+                    Images
                 </Link>
 
                     <TbGridDots className="bg-transparent hover:bg-gray-200
