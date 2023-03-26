@@ -1,46 +1,44 @@
 import React from 'react';
 import Link from "next/link";
+import Parser from "html-react-parser";
+import PaginationButtons from "@/components/PaginationButtons";
+import CustomVideoPlayer from "@/components/CustomVideoPlayer";
 
-const VideoSearchResults = ({ results }) => {
+const VideoSearchResults = ({ results, searchTerm }) => {
     return (
-        <div className="pb-24 mt-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-3 space-x-4">
-                {results.items?.map((result) => (
-                    <div key={result.link} className="mb-8">
-                        <div className="group flex flex-col">
-                            <Link
-                                className="group-hover:shadow-xl object-contain transition-shadow duration-300 text-sm truncate"
-                                href={result.link}
-                            >
-                                <video controls width="100%" height="200">
-                                    <source src={result.link} type="video/mp4"/>
-                                    Your browser does not support the video tag.
-                                </video>
-                            </Link>
-                            <Link
-                                className="group-hover:underline truncate text-xl"
-                                href={result.link}
-                            >
-                                <h2>{result.title}</h2>
-                            </Link>
-                            <div className="flex items-center">
-                                <img
-                                    src={`https://${result.displayLink}/favicon.ico`}
-                                    alt={`${result.displayLink} favicon`}
-                                    className="w-4 h-4 mr-2"
-                                />
-                                <Link href={result.link}>
-                                    <p className="group-hover:underline text-gray-600">
-                                        {result.displayLink}
-                                    </p>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                ))}
+        <div className="w-full mx-auto px-3 pb-40 sm:pb-24 sm:pl-[5%]
+        md:pl-[14%] lg:pl-52">
+        <p className="text-gray-600 text-sm mb-5 mt-3">
+            About {results.pageInfo.totalResults}{' '}
+            results ({results.pageInfo.resultsPerPage} per page)
+            for {' '}{searchTerm}
+        </p>
+        {results.items?.map((result) => (
+            <div key={result.id.videoId} className="max-w-xl mb-8">
+                <div className="group flex flex-col">
+                    <Link className="text-sm truncate" href={`https://www.youtube.com/watch?v=${result.id.videoId}`}>
+                        {`https://www.youtube.com/watch?v=${result.id.videoId}`}
+                    </Link>
+                    <Link className="group-hover:underline
+                        decoration-blue-800 text-xl truncate
+                        font-medium text-blue-800" href={`https://www.youtube.com/watch?v=${result.id.videoId}`}>
+                        {result.snippet.title}
+                    </Link>
+                </div>
+                <div className="my-2">
+                    <CustomVideoPlayer
+                        src={`https://www.youtube.com/embed/${result.id.videoId}`}
+                        thumbnail={result.snippet.thumbnails.medium.url}
+                        title={result.snippet.title}
+                    />
+                </div>
+                <p className="text-gray-500">
+                    {Parser(result.snippet.description)}
+                </p>
             </div>
+        ))}
+            <PaginationButtons />
         </div>
     );
 };
-
 export default VideoSearchResults;
